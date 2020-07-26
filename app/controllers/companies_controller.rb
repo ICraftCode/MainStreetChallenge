@@ -17,6 +17,7 @@ class CompaniesController < ApplicationController
     if @company.save
       redirect_to companies_path, notice: "Saved"
     else
+      flash[:error] = "should be a valid email_id that ends with @getmainstreet.com"  
       render :new
     end
   end
