@@ -9,6 +9,7 @@
         <a href="<%= company_path(company) %>" class="list-group-item list-group-item-action">
           <%= company.name %>
         </a>
+        <%= link_to 'Delete', company_path(company), method: :delete %>  
       <% end %>
     </ul>
   <% end %>
