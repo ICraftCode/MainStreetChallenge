@@ -21,7 +21,8 @@ class CompaniesControllerTest < ApplicationSystemTestCase
     assert_text @company.name
     assert_text @company.phone
     assert_text @company.email
-    assert_text "City, State"
+    assert_text @company.city
+    assert_text @company.state
   end
 
   test "Update" do
@@ -45,9 +46,8 @@ class CompaniesControllerTest < ApplicationSystemTestCase
 
     within("form#new_company") do
       fill_in("company_name", with: "New Test Company")
-      fill_in("company_zip_code", with: "28173")
-      fill_in("company_phone", with: "5553335555")
-      fill_in("company_email", with: "new_test_company@test.com")
+      fill_in("company_zip_code", with: "12345")
+      fill_in("company_email", with: "new_test_company@getmainstreet.com")
       click_button "Create Company"
     end
 
@@ -55,7 +55,26 @@ class CompaniesControllerTest < ApplicationSystemTestCase
 
     last_company = Company.last
     assert_equal "New Test Company", last_company.name
-    assert_equal "28173", last_company.zip_code
+    assert_equal "12345", last_company.zip_code
+
+    visit new_company_path
+
+    within("form#new_company") do
+      fill_in("company_name", with: "New Test Company wrong email")
+      fill_in("company_zip_code", with: "12345")
+      fill_in("company_email", with: "new_test_companyget.com")
+      click_button "Create Company"
+    end
+
+    assert_text "Email should be a valid email_id that ends with @getmainstreet.com;"
+
+
+  end
+
+  test "Delete" do
+    visit delete_company_path(@company)
+    assert_text "Company deleted!"
+    #setup()
   end
 
 end
