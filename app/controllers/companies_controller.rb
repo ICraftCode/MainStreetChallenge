@@ -17,7 +17,11 @@ class CompaniesController < ApplicationController
     if @company.save
       redirect_to companies_path, notice: "Saved"
     else
-      flash[:error] = "should be a valid email_id that ends with @getmainstreet.com"  
+      e_message = ""
+      @company.errors.full_messages.each do |error_message| 
+        e_message += error_message + "; "
+      end 
+      flash[:error] = e_message
       render :new
     end
   end
@@ -29,6 +33,11 @@ class CompaniesController < ApplicationController
     if @company.update(company_params)
       redirect_to companies_path, notice: "Changes Saved"
     else
+      e_message = ""
+      @company.errors.full_messages.each do |error_message| 
+        e_message += error_message + "; "
+      end 
+      flash[:error] = e_message
       render :edit
     end
   end  
